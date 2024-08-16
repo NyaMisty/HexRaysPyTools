@@ -40,4 +40,31 @@ class MemberDoubleClick(callbacks.HexRaysEventHandler):
                 idaapi.jumpto(func_ea)
                 return 1
 
+    def _process_commented_address(self, struct_tinfo, func_offset, item):
+        sid = idc.get_struc_id(struct_tinfo.dstr())
+        if sid != idaapi.BADADDR:
+            sptr = idaapi.get_struc(sid)
+            mid = idaapi.get_member_id(sptr, func_offset)
+            comment = idaapi.get_member_cmt(mid, False)
+            if comment:
+                try:
+                    commented_address = int(comment, 16)
+                    new_comment = self._get_target_func_comment(commented_address, item)
+                    self._update_func_comment_and_jump(commented_address, new_comment)
+                except:
+                    pass
+
+    def _get_commented_address_from_vtable(self, vtable_tinfo, method_offset):
+        sid = idc.get_struc_id(vtable_tinfo.get_type_name())
+        if sid != idaapi.BADADDR:
+            sptr = idaapi.get_struc(sid)
+            mid = idaapi.get_member_id(sptr, method_offset)
+            comment = idaapi.get_member_cmt(mid, False)
+            if comment:
+                try:
+                    return int(comment, 16)
+                except:
+                    return None
+        return None
+
 callbacks.hx_callback_manager.register(idaapi.hxe_double_click, MemberDoubleClick())
