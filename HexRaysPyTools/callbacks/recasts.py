@@ -63,6 +63,8 @@ class RecastItemLeft(actions.HexRaysPopupAction):
                 # struct->member = (TYPE ) ...;
                 struct_name = expression.x.x.type.get_pointed_object().dstr()
                 struct_offset = expression.x.m
+                if struct_name == '?':
+                    struct_name = expression.x.x.type.dstr()
                 return RecastStructure(right_tinfo, struct_name, struct_offset)
 
             elif expression.x.op == idaapi.cot_memref:

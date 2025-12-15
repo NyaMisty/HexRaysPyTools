@@ -1,6 +1,10 @@
 import bisect
 import itertools
-from PyQt5 import QtCore, QtGui, QtWidgets
+try:
+    from PySide6 import QtCore, QtWidgets, QtGui # IDA 9.2+
+except ImportError:
+    from PyQt5 import QtCore, QtWidgets, QtGui
+from functools import reduce
 
 import ida_name
 import idaapi

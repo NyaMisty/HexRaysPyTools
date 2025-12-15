@@ -1,6 +1,9 @@
 import os
 
-from PyQt5 import QtCore, QtWidgets, QtGui
+try:
+    from PySide6 import QtCore, QtWidgets, QtGui # IDA 9.2+
+except ImportError:
+    from PyQt5 import QtCore, QtWidgets, QtGui
 
 import idaapi
 import ida_kernwin

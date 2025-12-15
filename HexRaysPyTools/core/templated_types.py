@@ -2,7 +2,10 @@
 # https://www.msreverseengineering.com/blog/2021/9/21/automation-in-reverse-engineering-c-template-code
 
 import os
-import toml
+try:
+    import tomllib as toml
+except ImportError:
+    import toml
 import HexRaysPyTools.settings as settings
 
 class TemplatedTypes:
